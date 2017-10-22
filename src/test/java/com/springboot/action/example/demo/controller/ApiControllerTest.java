@@ -82,4 +82,49 @@ public class ApiControllerTest {
                 .andDo(print()).andReturn().equals(null);
 
     }
+
+    @Test
+    public void updateSuccessTest() throws Exception{
+        String name = "dog";
+        Animal animal = new Animal(name,2,2);
+        String requestJson = JSONObject.toJSONString(animal);
+
+        when(animalService.update(animal)).thenReturn(true);
+
+        mockMvc.perform(put("/api/updateAnimal").contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(content().string("update success."));
+    }
+
+    @Test
+    public void updateFailTest() throws Exception{
+        String name = "qqq";
+        Animal animal = new Animal(name,2,2);
+        String requestJson = JSONObject.toJSONString(animal);
+        when(animalService.update(animal)).thenReturn(false);
+
+        mockMvc.perform(put("/api/updateAnimal").contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(content().string("update fail."));
+    }
+
+    @Test
+    public void createSuccessTest() throws Exception{
+        String name = "dog";
+        Animal animal = new Animal(name,2,2);
+        when(animalService.create(animal)).thenReturn(true);
+
+        String requestJson = JSONObject.toJSONString(animal);
+        mockMvc.perform(post("/api/createAnimal").contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(content().string("create success."));
+    }
+
+    @Test
+    public void createFailTest() throws Exception{
+        String name = "dog";
+        Animal animal = new Animal(name,2,2);
+        when(animalService.create(animal)).thenReturn(false);
+
+        String requestJson = JSONObject.toJSONString(animal);
+        mockMvc.perform(post("/api/createAnimal").contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(content().string("create fail."));
+    }
 }
