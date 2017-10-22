@@ -1,5 +1,6 @@
 package com.springboot.action.example.demo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.springboot.action.example.demo.bean.Animal;
 import com.springboot.action.example.demo.service.AnimalService;
 import org.junit.Before;
@@ -18,13 +19,11 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -42,7 +41,7 @@ public class ApiControllerTest {
     public void setupMockMvc() throws Exception {
         MockitoAnnotations.initMocks(this);
         apiController = new ApiController(animalService);
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(apiController).build();;
     }
 
     @Test
@@ -51,12 +50,12 @@ public class ApiControllerTest {
         given(animalService.delete(name)).willReturn(true);
 
         mockMvc.perform(delete("/api/deleteAnimal").param("name", name))
-                .andExpect(content().string("delete success"));
+                .andExpect(content().string("delete success."));
 
     }
 
     @Test
-    public void deleteFailedWhenThisAniamlISNotExist() throws Exception {
+    public void deleteFailTest() throws Exception {
         String name = "www";
         given(animalService.delete(name)).willReturn(false);
 
@@ -65,12 +64,22 @@ public class ApiControllerTest {
     }
 
     @Test
-    public void deleteFailedWhenThisAniamlISNull() throws Exception {
-        String name = null;
-        given(animalService.delete(name)).willReturn(false);
+    public void FindSuccessTest() throws Exception{
+        String name = "dog";
+        Animal animal = new Animal(name,2,2);
+        when(animalService.findAnimalByName(name)).thenReturn(animal);
 
-        mockMvc.perform(delete("/api/deleteAnimal").param("name", name))
-                .andExpect(content().string("delete failed."));
+        mockMvc.perform(get("/api/getAnimal").param("name","dog"))
+                .andExpect(content().string("{\"name\":\"dog\",\"age\":2,\"legNum\":2}"));
     }
 
+    @Test
+    public void FindFailTest() throws Exception{
+        String name = "dog";
+        when(animalService.findAnimalByName(name)).thenReturn(null);
+
+        mockMvc.perform(get("/api/getAnimal").param("name","dog"))
+                .andDo(print()).andReturn().equals(null);
+
+    }
 }

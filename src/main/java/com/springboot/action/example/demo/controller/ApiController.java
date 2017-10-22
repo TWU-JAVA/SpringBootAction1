@@ -34,7 +34,7 @@ public class ApiController {
         String result = "create fail.";
         Boolean isSucess = animalService.create(animal);
         if(isSucess){
-            result = "create sucesses.";
+            result = "create success.";
         }
         return result;
     }
@@ -44,7 +44,7 @@ public class ApiController {
         String result = "update fail.";
         Boolean isSucess = animalService.update(animal);
         if(isSucess){
-            result = "update sucesses.";
+            result = "update success.";
         }
         return result;
 
@@ -52,11 +52,10 @@ public class ApiController {
 
     @RequestMapping(value = "/deleteAnimal", method = RequestMethod.DELETE)
     public String deleteAnimal(@RequestParam String name) {
-
         String result = "delete failed.";
         Boolean isSucess = animalService.delete(name);
         if(isSucess){
-            result = "delete sucesses.";
+            result = "delete success.";
         }
         return result;
     }
