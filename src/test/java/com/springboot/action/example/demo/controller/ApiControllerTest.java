@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.Matchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -24,6 +25,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -70,7 +72,9 @@ public class ApiControllerTest {
         when(animalService.findAnimalByName(name)).thenReturn(animal);
 
         mockMvc.perform(get("/api/getAnimal").param("name","dog"))
-                .andExpect(content().string("{\"name\":\"dog\",\"age\":2,\"legNum\":2}"));
+                .andExpect(jsonPath("$.name").value("dog"))
+                .andExpect(jsonPath("$.age").value(2))
+                .andExpect(jsonPath("$.legNum").value(2));
     }
 
     @Test
@@ -89,7 +93,7 @@ public class ApiControllerTest {
         Animal animal = new Animal(name,2,2);
         String requestJson = JSONObject.toJSONString(animal);
 
-        when(animalService.update(animal)).thenReturn(true);
+        when(animalService.update(any())).thenReturn(true);
 
         mockMvc.perform(put("/api/updateAnimal").contentType(MediaType.APPLICATION_JSON).content(requestJson))
                 .andExpect(content().string("update success."));
@@ -100,7 +104,7 @@ public class ApiControllerTest {
         String name = "qqq";
         Animal animal = new Animal(name,2,2);
         String requestJson = JSONObject.toJSONString(animal);
-        when(animalService.update(animal)).thenReturn(false);
+        when(animalService.update(any())).thenReturn(false);
 
         mockMvc.perform(put("/api/updateAnimal").contentType(MediaType.APPLICATION_JSON).content(requestJson))
                 .andExpect(content().string("update fail."));
@@ -110,7 +114,7 @@ public class ApiControllerTest {
     public void createSuccessTest() throws Exception{
         String name = "dog";
         Animal animal = new Animal(name,2,2);
-        when(animalService.create(animal)).thenReturn(true);
+        when(animalService.create(any())).thenReturn(true);
 
         String requestJson = JSONObject.toJSONString(animal);
         mockMvc.perform(post("/api/createAnimal").contentType(MediaType.APPLICATION_JSON).content(requestJson))
@@ -121,7 +125,7 @@ public class ApiControllerTest {
     public void createFailTest() throws Exception{
         String name = "dog";
         Animal animal = new Animal(name,2,2);
-        when(animalService.create(animal)).thenReturn(false);
+        when(animalService.create(any())).thenReturn(false);
 
         String requestJson = JSONObject.toJSONString(animal);
         mockMvc.perform(post("/api/createAnimal").contentType(MediaType.APPLICATION_JSON).content(requestJson))

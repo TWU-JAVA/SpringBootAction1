@@ -1,9 +1,7 @@
 package com.springboot.action.example.demo.controller;
 
 import com.springboot.action.example.demo.bean.Animal;
-import com.springboot.action.example.demo.dao.AnimalDao;
 import com.springboot.action.example.demo.service.AnimalService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,10 +15,6 @@ public class ApiController {
 
     @RequestMapping(value = "/getAnimal", method = RequestMethod.GET)
     public Animal getAnimalByName(@RequestParam(value = "name") String name) {
-
-//        return (Animal)jdbcTemplate.queryForObject("select * from animal where name =?",
-//                new Object[]{name},
-//                Animal.class);
         Animal animal = animalService.findAnimalByName(name);
         if(animal!=null)
         {

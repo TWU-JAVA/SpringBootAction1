@@ -49,6 +49,8 @@ public class AnimalDaoTest {
         assertEquals(null,animalDao.findObjectByName("dolphin"));
     }
 
-
+//        return (Animal)jdbcTemplate.queryForObject("select * from animal where name =?",
+//                new Object[]{name},
+//                Animal.class);
 
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/mydb")
-public class DbController {
+public class DbTestController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
