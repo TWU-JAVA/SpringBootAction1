@@ -1,6 +1,5 @@
 package com.springboot.action.example.demo.controller;
 
-import org.aspectj.util.FileUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,9 +20,6 @@ public class UploadFileController {
 
     @RequestMapping(value = "testUpload",method = RequestMethod.POST)
     public @ResponseBody String uploadImg(@RequestParam("file") MultipartFile file, HttpServletRequest request){
-        String contentType = file.getContentType();
-        String fileName = file.getOriginalFilename();
-        String filePath = request.getSession().getServletContext().getRealPath("/static");
 
         if(!file.isEmpty()){
             try{

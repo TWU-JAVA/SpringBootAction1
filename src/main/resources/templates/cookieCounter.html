@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8" />
     <title>cookie counter</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 </head>
 <body>
 <h2>hit counter</h2>
 <h3 th:text="'hit counter:'+ ${hitCounter}"></h3>
+<h3 id="hitCounter"></h3>
 
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $('#hitCounter').html("hit count in cookie :  "+$.cookie("hitCounter"));
+});
+
+</script>
 </body>
 </html>

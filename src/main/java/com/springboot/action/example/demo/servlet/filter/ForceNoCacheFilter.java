@@ -1,10 +1,14 @@
 package com.springboot.action.example.demo.servlet.filter;
 
+import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Order(2)
+@WebFilter
 public class ForceNoCacheFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -17,6 +21,7 @@ public class ForceNoCacheFilter implements Filter {
       no-cache指浏览器不要缓存当前页面。
       max-age:xxx指浏览器缓存页面xxx秒
      */
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 

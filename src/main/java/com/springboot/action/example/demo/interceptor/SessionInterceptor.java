@@ -13,7 +13,6 @@ public class SessionInterceptor implements HandlerInterceptor{
         {
             return true;
         }
-        //验证session是否存在
         Object obj = httpServletRequest.getSession().getAttribute("_session_animal");
         if(obj == null)
         {

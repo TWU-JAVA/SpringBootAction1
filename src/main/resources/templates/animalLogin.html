@@ -6,9 +6,9 @@
 <body>
 <h1>animal login page:</h1>
 
-<form action="/animal/loginProcess" method="get">
-    animalName: <input type="text" name="animalName" placeholder="输入唯一的animal name" />
-    animalAge: <input type="text" name="animalAge" placeholder="输入整数值animal age" />
+<form action="/animal/loginProcess" method="post">
+    animalName: <input type="text" name="animalName" placeholder="输入唯一的animal name" required="required"/>
+    animalAge: <input type="text" name="animalAge" placeholder="输入整数值animal age" required="required"/>
     <input type="submit"/>
 </form>
 

@@ -1,11 +1,14 @@
 package com.springboot.action.example.demo.servlet.filter;
 
+import org.springframework.core.annotation.Order;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Calendar;
 
+@Order(3)
 @WebFilter
 public class SetStaticFileCacheTimeFilter implements Filter{
     @Override

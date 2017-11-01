@@ -17,7 +17,7 @@ public class CookiePageCounterController {
         Cookie cookie = new Cookie("hitCounter", hitCounter.toString());
         response.addCookie(cookie);
         model.addAttribute("hitCounter",hitCounter);
-        cookie.setMaxAge(300);
+        cookie.setMaxAge(30);
         return "cookieCounter";
     }
 }

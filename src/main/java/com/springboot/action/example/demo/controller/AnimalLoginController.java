@@ -34,22 +34,19 @@ public class AnimalLoginController{
         return modelAndView;
     }
 
-    @RequestMapping(value = "/loginProcess",method = RequestMethod.GET)
-    public String loginSuccess(@RequestParam String animalName, @RequestParam int animalAge, HttpServletRequest request){
-        //登录失败
+    @RequestMapping(value = "/loginProcess",method = RequestMethod.POST)
+    public String loginSuccess(@RequestParam(required = true) String animalName, @RequestParam(required = true) int animalAge, HttpServletRequest request){
         String result = "animalLogin";
-        boolean flag = false;
+        boolean loginSuccessFlag = false;
 
         Animal animal = animalService.findAnimalByName(animalName);
         if (animal.getAge() == animalAge && animal.getName() != null) {
-            flag = true;
+            loginSuccessFlag = true;
             result = "index";
         }else{
             animal = null;
         }
-        //登录成功
-        if(flag){
-            //写入session
+        if(loginSuccessFlag){
             request.getSession().setAttribute("_session_animal", animal);
         }
         return result;
